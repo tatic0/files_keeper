@@ -42,7 +42,7 @@ def indexer(path):
               md5sumlist.append(md5sum)
               filelist[current_file_name]=md5sum
             except IOError:
-              print("weird filename: %s") %current_file_name
+              print("weird file: %s") %current_file_name
               pass
   else:
     print("%s is a file, not a directory") %path
