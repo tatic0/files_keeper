@@ -56,6 +56,19 @@ def indexer(path):
       for m,n in filelist.items():
         if n == eachmd5:
           print n,m 
+##
+# TODO
+# os.link works (checked with stat 'filename1' 'filename2')
+# in order to link we first need to mv the 'dst' file, 
+# then, if link was successful, rm it
+# shutil.copy(src,dst)
+# os.remove(path) should do it
+# 
+# another useful feature to add is and --arvg to provide two paths to scan, instead of searching over entire filesystems
+# first, put some argparse 
+
+
+
 
 if __name__ == "__main__":
   indexer(path)
