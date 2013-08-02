@@ -3,6 +3,7 @@
 # filekeeper.py 
 
 import os, sys, hashlib, fnmatch
+from functools import partial
 
 # TODO
 # os.link(source, link_name)
@@ -34,11 +35,7 @@ def indexer(path):
             if maxdebug==True:
               print current_file_name
             try:
-              f = open(current_file_name, 'rb')
-              h = hashlib.md5()
-              h.update(f.read())
-              md5sum = h.hexdigest()
-              f.close()
+              md5sum = get_md5sum(current_file_name)
               md5sumlist.append(md5sum)
               filelist[current_file_name]=md5sum
             except IOError:
@@ -56,6 +53,16 @@ def indexer(path):
       for m,n in filelist.items():
         if n == eachmd5:
           print n,m 
+
+
+# from http://stackoverflow.com/questions/7829499/using-hashlib-to-compute-md5-digest-of-a-file-in-python3
+def get_md5sum(filename):
+    with open(filename, mode='rb') as f:
+        d = hashlib.md5()
+        for buf in iter(partial(f.read, 128), b''):
+            d.update(buf)
+    return d.hexdigest()
+
 ##
 # TODO
 # os.link works (checked with stat 'filename1' 'filename2')
