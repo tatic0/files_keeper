@@ -6,17 +6,28 @@ import os, sys, hashlib, fnmatch
 from functools import partial
 
 import argparse
+parser = argparse.ArgumentParser(
+  description='Files keeper, keeps your files unique',
+  epilog="Find duplicate files, save storage space")
+#parser.add_argument('-p', '--path', help='/path/to/scan/', dest='inputPath', type=str)
+parser.add_argument('-p', '--path', help='/path/to/scan/', dest='inputPath', type=str, required=True)
+#parser.add_argument('-p', '--path', help='/path/to/scan/', dest='inputPath', type=str, default="./")
+parser.add_argument('-s' ,'--save', help='save to file', dest='outputFile', type=str)
+# for multiple input paths, use nargs ## https://docs.python.org/2/library/argparse.html#nargs
 
 # set to false for quieter output
 debug = True 
 maxdebug = False
 
 
-if len(sys.argv) > 1:
-  path=sys.argv[1]
-else:
-  print("usage: %s /path/to/scan/") %sys.argv[0]
+if len(sys.argv) <= 1:
+  parser.print_help()
   sys.exit(1)
+
+args = parser.parse_args()
+path = args.inputPath
+outputFile=args.outputFile
+
 
 def indexer(path):
   filelist={}
@@ -42,6 +53,10 @@ def indexer(path):
     print("%s is a file, not a directory") %path
   
   print("\nRepeated files and md5s:\n")
+  #save to file option
+  if outputFile != None:
+    print("results will we saved to: %s" %outputFile) 
+  
   for eachmd5 in sorted(set(md5sumlist)):
     x=md5sumlist.count(eachmd5)
     if maxdebug == True:
