@@ -5,13 +5,10 @@
 import os, sys, hashlib, fnmatch
 from functools import partial
 
-# TODO
-# os.link(source, link_name)
+import argparse
 
 # set to false for quieter output
 debug = True 
-#debug = False 
-#debug = False 
 maxdebug = False
 
 
@@ -62,17 +59,6 @@ def get_md5sum(filename):
         for buf in iter(partial(f.read, 128), b''):
             d.update(buf)
     return d.hexdigest()
-
-##
-# TODO
-# os.link works (checked with stat 'filename1' 'filename2')
-# in order to link we first need to mv the 'dst' file, 
-# then, if link was successful, rm it
-# shutil.copy(src,dst)
-# os.remove(path) should do it
-# 
-# another useful feature to add is and --arvg to provide two paths to scan, instead of searching over entire filesystems
-# first, put some argparse 
 
 
 
